@@ -11,6 +11,7 @@ import { userGetRouter } from '@/routes/users/get';
 import { userProgressRouter } from '@/routes/users/progress';
 import { userSessionsRouter } from '@/routes/users/sessions';
 import { userSettingsRouter } from '@/routes/users/settings';
+import { saveKeyRouter } from '@/routes/users/savekey';
 import { FastifyInstance } from 'fastify';
 
 export async function setupRoutes(app: FastifyInstance) {
@@ -27,4 +28,5 @@ export async function setupRoutes(app: FastifyInstance) {
   await app.register(userGetRouter.register);
   await app.register(metricsRouter.register);
   await app.register(indexRouter.register);
+  await app.register(saveKeyRouter.register);
 }

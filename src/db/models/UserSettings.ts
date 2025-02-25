@@ -16,6 +16,12 @@ export class UserSettings {
 
   @Property({ name: 'proxy_urls', type: ArrayType, nullable: true })
   proxyUrls?: string[] | null;
+
+  @Property({ name: 'trakt_key', nullable: true })
+  traktKey?: string;
+
+  @Property({ name: 'febbox_key', nullable: true })
+  febboxKey?: string;
 }
 
 export interface UserSettingsDTO {
