@@ -12,6 +12,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # build source
 COPY . ./
+RUN pnpm install
 RUN pnpm run build
 
 # start server
