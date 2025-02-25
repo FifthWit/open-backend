@@ -5,6 +5,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
