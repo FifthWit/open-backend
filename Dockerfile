@@ -12,6 +12,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # build source
 COPY . ./
+RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
 
