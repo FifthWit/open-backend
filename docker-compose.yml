@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$PG_USER -d $$PG_DB" ]
+      interval: 5s
+      retries: 10
+      timeout: 2s
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    networks:
+      - p-stream-network
+
+  p-stream:
+    build: .
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL_DOCKER:?database URL required}
+      META_NAME: ${META_NAME}
+      META_DESCRIPTION: ${META_DESCRIPTION}
+      CRYPTO_SECRET: ${CRYPTO_SECRET:?crypto secret required}
+      TMDB_API_KEY: ${TMDB_API_KEY:?TMDB API key required}
+      TRAKT_CLIENT_ID: ${TRAKT_CLIENT_ID:?Trakt client ID required}
+      TRAKT_SECRET_ID: ${TRAKT_SECRET_ID:?Trakt secret ID required}
+      CAPTCHA: ${CAPTCHA}
+      CAPTCHA_CLIENT_KEY: ${CAPTCHA_CLIENT_KEY}
+      NODE_ENV: ${NODE_ENV:-production}
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - p-stream-network
+
+networks:
+  p-stream-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
